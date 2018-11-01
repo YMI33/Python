@@ -2,15 +2,12 @@
 import numpy as np
 #from mpl_toolkits.basemap import Basemap
 from numpy import mean
-from gsscript import gsscript
-from py3grads import Grads
 from scipy.interpolate import Rbf
 from matplotlib import pyplot as plt
-ga    = Grads(verbose=False)
-
+from gsscript import gsscript
 lev_p = [200,500]
-lon_r = [[75,105],[110,140],[150,180]]
-lat_r = [[25,45],[35,55],[45,65]]
+lon_r = [[75,105],[145,155],[175,185]]
+lat_r = [[25,45],[35,45],[35,45]]
 count = 5
 notes = ""
 bsf   = [None]*(count+1)
@@ -20,19 +17,7 @@ psi   = [None]*(count+1)
 subplot_title   = [None]*(count+1)
 
 #execute gs script
-gsdic = {
-        "note"   : "notes= notes + gs.state",
-        "grads"  : "ga(gs.state)",
-        "gs"     : "gs.state"
-        }
-
-for line in open("./wave_source.gs"):
-  if not line: 
-      continue
-  if line == "return":
-      break
-  gs = gsscript(line)
-  exec(gsdic[gs.type])
+gs    = gsscript("./wave_source.gs")
 
 #user setting env
 
@@ -40,10 +25,10 @@ flag_l = True
 for l in range(count+1):
  k      = l % 3
  if flag_l: 
-  ga("set lev " + str(lev_p[0]))
+  gs.ga("set lev " + str(lev_p[0]))
   subplot_title[l] = "Level " + str(lev_p[0])
  else:
-  ga("set lev " + str(lev_p[1]))
+  gs.ga("set lev " + str(lev_p[1]))
   subplot_title[l] = "Level " + str(lev_p[1])
  subplot_title[l] = subplot_title[l] + ", Center " + str(mean(lon_r[k][:])) + "$^oE, "+ str(mean(lat_r[k][:])) + "^oN$"
  flag_l = not flag_l
@@ -51,18 +36,18 @@ for l in range(count+1):
  print(subplot_title)
  #varable area average 
  gasta  = "define bsterm = tloop(aave(bsf,lon=" + str(lon_r[k][0]) + ",lon=" + str(lon_r[k][1]) + ",lat=" + str(lat_r[k][0]) + ",lat=" + str(lat_r[k][1]) + ")*1e12)"
- ga(gasta)
+ gs.ga(gasta)
  gasta  = "define bvterm = tloop(aave(bkv,lon=" + str(lon_r[k][0]) + ",lon=" + str(lon_r[k][1]) + ",lat=" + str(lat_r[k][0]) + ",lat=" + str(lat_r[k][1]) + ")*1e12)"
- ga(gasta)
+ gs.ga(gasta)
  gasta  = "define tenterm = tloop(aave(ten,lon=" + str(lon_r[k][0]) + ",lon=" + str(lon_r[k][1]) + ",lat=" + str(lat_r[k][0]) + ",lat=" + str(lat_r[k][1]) + ")*1e12)"
- ga(gasta)
+ gs.ga(gasta)
  gasta  = "define psiterm = tloop(aave(psi,lon=" + str(lon_r[k][0]) + ",lon=" + str(lon_r[k][1]) + ",lat=" + str(lat_r[k][0]) + ",lat=" + str(lat_r[k][1]) + ")/1e5)"
- ga(gasta)
+ gs.ga(gasta)
  #analysis term
- bsf[l]    = ga.exp("bsterm") 
- bkv[l]    = ga.exp("bvterm") 
- ten[l]    = ga.exp("tenterm") 
- psi[l]    = ga.exp("psiterm") 
+ bsf[l]    = gs.ga.exp("bsterm") 
+ bkv[l]    = gs.ga.exp("bvterm") 
+ ten[l]    = gs.ga.exp("tenterm") 
+ psi[l]    = gs.ga.exp("psiterm") 
 
 for l in range(count+1):
  plt.subplot(2,3,l+1)

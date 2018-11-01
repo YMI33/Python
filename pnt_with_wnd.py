@@ -3,13 +3,10 @@
 
 #import lib
 import numpy as np
-#from mpl_toolkits.basemap import Basemap
 from numpy import deg2rad, rad2deg, sin, cos, tan, arcsin, arctan2
 from gsscript import gsscript
-from py3grads import Grads
 from scipy.interpolate import Rbf
 from matplotlib import pyplot as plt
-ga    = Grads(verbose=False)
 #user setting
 tstp  = 1
 dyend = 10 
@@ -26,32 +23,17 @@ pi    = 3.14159
 spend = dyend * 86400 / tintv
 #spend = 1
 #main process
-notes = []
-#execute gs script
-gsdic = {
-        "note"   : "notes = notes + gs.state",
-        "grads"  : "ga(gs.state)",
-        "gs"     : "gs.state"
-        }
-
-for line in open("./trace_pos.gs"):
-  if not line: 
-      continue
-  if line == "return":
-      break
-  gs = gsscript(line)
-  exec(gsdic[gs.type])
 
 #get uwnd and vwnd
-ga('open ../TP.wave.dyn.ctl')
-u    = ga.exp("uspr") 
-v    = ga.exp("vspr")
-lat  = ga.exp("lat")
-lon  = ga.exp("lon")
+gs = gsscript("./trace_pos.gs")
+print(gs.ga)
+gs.ga('open ../TP.wave.dyn.ctl')
+u    = gs.ga.exp("uspr") 
+v    = gs.ga.exp("vspr")
+lat  = gs.ga.exp("lat")
+lon  = gs.ga.exp("lon")
 #vara = "bsf.2(t=" + str(dyend) +")"
-vara = "bsf.2(t=10)"
-vort = ga.exp(vara)
-print(vara)
+vort = gs.ga.exp("bsf.2(t=10)")
 #langrangian trace
 lons,lats  = np.meshgrid( E_st, N_st )
 lons       = lons.ravel()
