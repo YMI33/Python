@@ -4,3 +4,8 @@ a.arrange(6).reshape([3,2])
 
 在 python 中，strings, tuples, 和 numbers 是不可更改（immutable）的对象，而 list,dict 等则是可以修改（mutable）的对象。
 即经过函数处理后，不可更改对象值并不发生变化，但可更改对象值会发生变化。
+
+正则表达式
+import re
+sdftab = re.compile('.*=>')
+sdftab.sub('',str)
