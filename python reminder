@@ -9,3 +9,8 @@ a.arrange(6).reshape([3,2])
 import re
 sdftab = re.compile('.*=>')
 sdftab.sub('',str)
+
+
+=========
+xarray
+groupby(xr.IndexVariable('time',time.month)) 
