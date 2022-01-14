@@ -10,7 +10,15 @@ import re
 sdftab = re.compile('.*=>')
 sdftab.sub('',str)
 
-
 =========
 xarray
 groupby(xr.IndexVariable('time',time.month)) 
+
+xarray年平均时间序列 （折线图小原则，xarray完成计算，pandas画图）
+1 提取xarray数据；2 用pd.Index()设置时间序列；3 计算平均值groupby(xr.IndexVariable(dims='time',data=time.year))；4 squeeze(drop=True)数据；
+5 转换pandas用.transpose().to_pandas().reset_index().set_index('time').plot(); 
+time    = pd.Index(picvar.time)
+data    = expdata.sel(run='scen').groupby(xr.IndexVariable(dims='time',data=time.year)).mean().squeeze(drop=True)
+data.transpose().to_pandas().reset_index().set_index('time').plot()
+Notes:
+* 重设index：.reset_index().set_index('time')
