@@ -22,3 +22,15 @@ data    = expdata.sel(run='scen').groupby(xr.IndexVariable(dims='time',data=time
 data.transpose().to_pandas().reset_index().set_index('time').plot()
 Notes:
 * 重设index：.reset_index().set_index('time')
+
+xarray循环赋值技巧
+    dim = t81.coords # 维数信息 {dim_name:dim_values ...}
+    pdis = t81.isel(time=0).copy().squeeze(drop=True);pdis.name="wdis" # 初始化变量
+    # 循环
+    for ilon in dim['lon']:
+        for ilat in dim['lat']:
+            temp1 = t81.sel(lon=ilon,lat=ilat).squeeze()
+            temp2 = t20.sel(lon=ilon,lat=ilat).squeeze()
+            dis,dis_sig = wtest(temp1,temp2)
+            pdis.loc[dict(lon=ilon,lat=ilat)] = dis # loc才能赋值
+
