@@ -22,6 +22,7 @@ data    = expdata.sel(run='scen').groupby(xr.IndexVariable(dims='time',data=time
 data.transpose().to_pandas().reset_index().set_index('time').plot()
 Notes:
 * 重设index：.reset_index().set_index('time')
+* 选择时间sel(time=time[(time.month>=5) & (time.month<=9)])
 
 xarray循环赋值技巧
     dim = t81.coords # 维数信息 {dim_name:dim_values ...}
