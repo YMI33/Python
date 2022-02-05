@@ -14,6 +14,10 @@ sdftab.sub('',str)
 xarray
 groupby(xr.IndexVariable('time',time.month)) 
 
+Period年份数据
+time0   = pd.Index(exp_dist[senario].time)
+time    = pd.Index([pd.Period(freq='M',month=tperd.month,year=tperd.year) for tperd in time0])
+
 xarray年平均时间序列 （折线图小原则，xarray完成计算，pandas画图）
 1 提取xarray数据；2 用pd.Index()设置时间序列；3 计算平均值groupby(xr.IndexVariable(dims='time',data=time.year))；4 squeeze(drop=True)数据；
 5 转换pandas用.transpose().to_pandas().reset_index().set_index('time').plot(); 
