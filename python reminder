@@ -21,6 +21,10 @@ time    = pd.Index([pd.Period(freq='M',month=tperd.month,year=tperd.year) for tp
 提取dataarray数据
 dataarray.item()
 
+减去低维数数据
+ctrlrep    = np.tile(datatemp.control.values[:12],int(datatemp.senario.sizes['time']/12))
+datatemp.senario-ctrlrep
+
 回归分析
 from sklearn.linear_model import LinearRegression
 reg   = LinearRegression().fit(time.reshape(-1,1), data)
