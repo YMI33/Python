@@ -30,6 +30,11 @@ from sklearn.linear_model import LinearRegression
 reg   = LinearRegression().fit(time.reshape(-1,1), data)
 coef  = reg.coef_[0]
 
+设置countour label位置：
+manual_locations = [(-1, -1.4), (-0.62, -0.7), (-2, 0.5), (1.7, 1.2), (2.0, 1.4), (2.4, 1.7)]
+ax.clabel(CS, manual=manual_locations)
+
+
 xarray年平均时间序列 （折线图小原则，xarray完成计算，pandas画图）
 1 提取xarray数据；2 用pd.Index()设置时间序列；3 计算平均值groupby(xr.IndexVariable(dims='time',data=time.year))；4 squeeze(drop=True)数据；
 5 转换pandas用.transpose().to_pandas().reset_index().set_index('time').plot(); 
