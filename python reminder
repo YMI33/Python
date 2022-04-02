@@ -26,9 +26,18 @@ ctrlrep    = np.tile(datatemp.control.values[:12],int(datatemp.senario.sizes['ti
 datatemp.senario-ctrlrep
 
 回归分析
+1. sklearn
 from sklearn.linear_model import LinearRegression
 reg   = LinearRegression().fit(time.reshape(-1,1), data)
 coef  = reg.coef_[0]
+2. statsmodels
+import statsmodels.api as sm
+x     = time.year.values
+x     = sm.add_constant(x)
+y     = data.values
+model = sm.OLS(y,x).fit()
+wdis.loc[dict(lon=ilon,lat=ilat)] = model.params[1]
+wtst.loc[dict(lon=ilon,lat=ilat)] = abs(model.tvalues[1]) > 1.96
 
 设置countour label位置：
 manual_locations = [(-1, -1.4), (-0.62, -0.7), (-2, 0.5), (1.7, 1.2), (2.0, 1.4), (2.4, 1.7)]
