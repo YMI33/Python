@@ -64,4 +64,9 @@ xarray循环赋值技巧
             temp2 = t20.sel(lon=ilon,lat=ilat).squeeze()
             dis,dis_sig = wtest(temp1,temp2)
             pdis.loc[dict(lon=ilon,lat=ilat)] = dis # loc才能赋值
-
+双x轴
+ax1  = plt.subplot(122)
+ax1.plot(albd_new['iceh'],albd_new['land'],c='r')
+ax2  = ax1.twiny()
+ax2.plot(albd_new['iceh']*20,albd_new['ocean'],c='b')
+fig.legend(['land','ocean'],loc='center',bbox_to_anchor=(0.79,0.8))
