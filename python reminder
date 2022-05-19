@@ -5,6 +5,11 @@ a.arrange(6).reshape([3,2])
 在 python 中，strings, tuples, 和 numbers 是不可更改（immutable）的对象，而 list,dict 等则是可以修改（mutable）的对象。
 即经过函数处理后，不可更改对象值并不发生变化，但可更改对象值会发生变化。
 
+assignment | shallow copy | deepcopy:
+assignment: 表示生成指向同一内存地址的变量，相当于重命名了一个快捷方式 -> a=b
+shallow copy: 复制一个新变量，但是这个变量架构与原变量一致，所以2层以上引用时会造成原本变量的更改。（我的附庸的附庸，不是我的附庸） -> a[i]=b;for loop; a=list(b)
+deep copy: 重新用一个新内存地址，从头到尾重构一个变量，与fortran, matlab中的复制一致 -> a=copy.deepcopy(b)
+
 正则表达式
 import re
 sdftab = re.compile('.*=>')
