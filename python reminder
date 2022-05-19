@@ -32,6 +32,11 @@ dataarray.item()
 ctrlrep    = np.tile(datatemp.control.values[:12],int(datatemp.senario.sizes['time']/12))
 datatemp.senario-ctrlrep
 
+维数扩充
+nidx = pd.MultiIndex.from_tuples(((x,y) for x in [1,2,3] for y in [1,2,3,4]),names=['mon','year'])
+data = data.assign_coords(time = nidx)
+datanew = data.unstack('time')
+
 回归分析
 1. sklearn
 from sklearn.linear_model import LinearRegression
