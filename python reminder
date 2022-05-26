@@ -10,6 +10,9 @@ assignment: 表示生成指向同一内存地址的变量，相当于重命名�
 shallow copy: 复制一个新变量，但是这个变量架构与原变量一致，所以2层以上引用时会造成原本变量的更改。（我的附庸的附庸，不是我的附庸） -> a[i]=b;for loop; a=list(b)
 deep copy: 重新用一个新内存地址，从头到尾重构一个变量，与fortran, matlab中的复制一致 -> a=copy.deepcopy(b)
 
+类内调用函数: 类名.函数名
+class.function()
+
 运行字符串命令函数：复制(exec);运行命令(eval)
 
 正则表达式
