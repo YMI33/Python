@@ -33,9 +33,9 @@ ctrlrep    = np.tile(datatemp.control.values[:12],int(datatemp.senario.sizes['ti
 datatemp.senario-ctrlrep
 
 维数扩充
-nidx = pd.MultiIndex.from_tuples(((x,y) for x in [1,2,3] for y in [1,2,3,4]),names=['mon','year'])
-data = data.assign_coords(time = nidx)
-datanew = data.unstack('time')
+nidx = pd.MultiIndex.from_tuples(((x,y) for x in range(1,4) for y in range(1,13)),names=['year','month'])
+data_CMIP6 = data_CMIP6.assign_coords(time = nidx)
+datanew = data_CMIP6.unstack('time')
 
 回归分析
 1. sklearn
