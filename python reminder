@@ -92,3 +92,23 @@ fig.legend(['land','ocean'],loc='center',bbox_to_anchor=(0.79,0.8))
 
 带属性输出nc文件
 data.to_dataset(promote_attrs=True).to_netcdf('./output/test.nc')
+
+====== EOF相关 ======
+from eofs.xarray import Eof
+# 选取区域并计算区域平均
+PO_sst  = sst.sel(lon=slice(100,260),lat=slice(20,70))
+PO4eof  = PO_sst.stack(time=['year','month']).transpose('time','lat','lon')
+PO4eofa = PO4eof - PO4eof.mean('time')
+
+# 计算面积权重
+wgts1d  = np.sqrt(np.cos(np.deg2rad(PO4eofa.lat)))
+wgts    = GeoFunction.conform(wgts1d,PO4eofa).transpose('time','lat','lon')
+
+# EOF结果，eof为标准正交无单位量，pc带有单位
+solver  = Eof(PO4eofa, weights=wgts)
+eof     = solver.eofs(eofscaling=0)
+pc      = solver.pcs(pcscaling=0)
+
+# EOF还原（time=0），需除去面积权重
+(eof*pc.isel(time=0)).sum('mode')/wgts.isel(time=0)
+============
