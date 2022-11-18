@@ -58,6 +58,11 @@ model = sm.OLS(y,x).fit()
 wdis.loc[dict(lon=ilon,lat=ilat)] = model.params[1]
 wtst.loc[dict(lon=ilon,lat=ilat)] = abs(model.tvalues[1]) > 1.96
 
+增加全球坐标下周期点：
+from cartopy.util import add_cyclic_point
+# Add cyclic point to data
+data, lons = add_cyclic_point(data, coord=ds['lon'])
+
 设置countour label位置：
 manual_locations = [(-1, -1.4), (-0.62, -0.7), (-2, 0.5), (1.7, 1.2), (2.0, 1.4), (2.4, 1.7)]
 ax.clabel(CS, manual=manual_locations)
