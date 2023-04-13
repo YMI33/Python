@@ -99,6 +99,18 @@ fig.legend(['land','ocean'],loc='center',bbox_to_anchor=(0.79,0.8))
 data.to_dataset(promote_attrs=True).to_netcdf('./output/test.nc')
 
 ====== EOF相关 ======
+anaconda3/envs/xarray/lib/python3.9/site-packages/eofs/xarray.py文件订正：
+#Lines 638 to 640
+# Add non-dimension coordinates. 
+pcs.coords.update({coord.name: (coord.dims, coord)
+                       for coord in time_ndcoords})
+                       
+to
+# Add non-dimension coordinates.
+pcs.coords.update({coord.name: (coord.dims, coord.data)
+                       for coord in time_ndcoords})
+
+
 from eofs.xarray import Eof
 # 选取区域并计算区域平均
 PO_sst  = sst.sel(lon=slice(100,260),lat=slice(20,70))
