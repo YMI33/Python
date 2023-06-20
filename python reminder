@@ -58,6 +58,9 @@ model = sm.OLS(y,x).fit()
 wdis.loc[dict(lon=ilon,lat=ilat)] = model.params[1]
 wtst.loc[dict(lon=ilon,lat=ilat)] = abs(model.tvalues[1]) > 1.96
 
+去趋势
+detrended_data = xr.apply_ufunc(signal.detrend, data, kwargs={'axis': data.get_axis_num(dimension)}, input_core_dims=[[dimension]], output_core_dims=[[dimension]])
+
 增加全球坐标下周期点：
 from cartopy.util import add_cyclic_point
 # Add cyclic point to data
