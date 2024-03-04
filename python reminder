@@ -98,6 +98,9 @@ ax2  = ax1.twiny()
 ax2.plot(albd_new['iceh']*20,albd_new['ocean'],c='b')
 fig.legend(['land','ocean'],loc='center',bbox_to_anchor=(0.79,0.8))
 
+设置ticks
+ax.tick_params(direction='in',color='b',pad=-22, labelsize=12)
+
 带属性输出nc文件
 data.to_dataset(promote_attrs=True).to_netcdf('./output/test.nc')
 
