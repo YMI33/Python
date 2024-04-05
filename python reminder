@@ -35,6 +35,8 @@ time    = pd.Index([pd.Period(freq='M',month=tperd.month,year=tperd.year) for tp
 提取dataarray数据
 dataarray.item()
 
+dataarray.interp插值需要除插值维数外其他维数均为ascending！！！
+
 减去低维数数据
 ctrlrep    = np.tile(datatemp.control.values[:12],int(datatemp.senario.sizes['time']/12))
 datatemp.senario-ctrlrep
