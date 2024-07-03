@@ -71,6 +71,9 @@ from cartopy.util import add_cyclic_point
 # Add cyclic point to data
 data, lons = add_cyclic_point(data, coord=ds['lon'])
 
+转换180中心经度->0中心经度
+assign_coords(lon=(vor.lon+180)%360-180).sortby('lon')
+
 设置countour label位置：
 manual_locations = [(-1, -1.4), (-0.62, -0.7), (-2, 0.5), (1.7, 1.2), (2.0, 1.4), (2.4, 1.7)]
 ax.clabel(CS, manual=manual_locations)
